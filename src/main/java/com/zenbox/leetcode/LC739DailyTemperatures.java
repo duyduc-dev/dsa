@@ -7,7 +7,7 @@ import java.util.Stack;
 /**
  * {@code LC739DailyTemperatures}
  * <p>
- * Solution for <a href="https://leetcode.com/problems/daily-temperatures">LeetCode Problem 739: Daily Temperatures</a>.
+ * Solution for <a href="https://leetcode.com/problems/daily-temperatures">LeetCode Problem 739: Daily Temperatures.</a>.
  * </p>
  */
 public class LC739DailyTemperatures {
