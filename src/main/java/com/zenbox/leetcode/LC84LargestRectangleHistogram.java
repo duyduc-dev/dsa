@@ -56,7 +56,7 @@ public class LC84LargestRectangleHistogram {
      * @param heights
      * @return
      */
-    public int largestRectangleArea(int[] heights) {
+    public int largestRectangleAreaBruteForce(int[] heights) {
         int maxArea = 0;
         for (int i = 0; i < heights.length; i++) {
             int minHeight = heights[i];
@@ -69,6 +69,35 @@ public class LC84LargestRectangleHistogram {
                     maxArea = max;
                 }
             }
+        }
+        return maxArea;
+    }
+
+    /**
+     * O(n^2)
+     * Space O(1)
+     * @param heights
+     * @return
+     */
+    public int largestRectangleAreaBruteForceV2(int[] heights) {
+        int n = heights.length;
+        int maxArea = 0;
+        for (int i = 0; i < heights.length; i++) {
+            int height = heights[i];
+            int right = i + 1;
+            while(right < n && heights[right] >= height) {
+                right++;
+            }
+
+            int left = i - 1;
+            while(left >= 0 && heights[left] >= height) {
+                left--;
+            }
+
+            right--;
+            left++;
+
+            maxArea = Math.max(maxArea, height * (right - left + 1));
         }
         return maxArea;
     }

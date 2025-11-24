@@ -16,7 +16,7 @@ public class LC1TwoSum {
 
     /**
      * Time complexity: O(n)
-     * Space complexity O(1)
+     * Space complexity O(n)
      *
      * @param nums array of integers
      * @param target
