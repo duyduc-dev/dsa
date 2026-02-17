@@ -11,6 +11,13 @@ package com.zenbox.leetcode;
  */
 public class LC121BestTimeToBuyAndSellStock {
 
+  /**
+   * Two point
+   * Time: O(n)
+   * Space: O(1)
+   * @param prices
+   * @return
+   */
   public int maxProfitWithTwoPoint(int[] prices) {
     int max = 0;
     int n = prices.length;
