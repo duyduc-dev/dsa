@@ -18,9 +18,9 @@ public class LC3LongestSubstringWithoutRepeatingCharacters {
     LC3LongestSubstringWithoutRepeatingCharacters runner = new LC3LongestSubstringWithoutRepeatingCharacters();
     /*          01234567*/
     String s = "abcabcbb";
-
+    /*          00000000*/
     System.out.println("Brute force: " + runner.lengthOfLongestSubstringWithBruteForce(s));
-    System.out.println("Sliding window: " + runner.lengthOfLongestSubstringWithSlidingWindow(s));
+    // System.out.println("Sliding window: " + runner.lengthOfLongestSubstringWithSlidingWindow(s));
   }
 
     public int lengthOfLongestSubstringWithSlidingWindow(String s) {
@@ -30,20 +30,15 @@ public class LC3LongestSubstringWithoutRepeatingCharacters {
        * max = 3;
        */
       int l = 0, r = 0, n = s.length(), maxLength = 0;
-      int[] seen = new int[26];
+      int[] seen = new int[128];
       while (r < n) {
-        if (l == r)
-          r++;
-        if (s.charAt(l) == s.charAt(r)) {
-          while (seen[s.charAt(r) - 'a'] != 0) {
-            seen[s.charAt(r) - 'a'] = 0;
-            l = r;
-          }
-        } else {
-          seen[s.charAt(r) - 'a'] = 1;
-          maxLength = Math.max(maxLength, r - l + 1);
-          r++;
+        while (seen[s.charAt(r)] > 0) {
+          seen[s.charAt(l)] = 0;
+          l++;
         }
+        seen[s.charAt(r)] = 1;
+        maxLength = Math.max(maxLength, r - l + 1);
+        r++;
       }
 
       return maxLength;
@@ -61,16 +56,14 @@ public class LC3LongestSubstringWithoutRepeatingCharacters {
     int maxLength = 0;
 
     for (int i = 0; i < n; i++) {
-      boolean[] seen = new boolean[256];
+      int[] seen = new int[128];
 
       for (int j = i; j < n; j++) {
-        char c = s.charAt(j);
-
-        if (seen[c]) {
+        if (seen[s.charAt(j)] > 0) {
           break;
         }
 
-        seen[c] = true;
+        seen[s.charAt(j)] = 1;
         maxLength = Math.max(maxLength, j - i + 1);
       }
     }
