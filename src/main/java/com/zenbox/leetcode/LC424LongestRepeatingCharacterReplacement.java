@@ -16,8 +16,8 @@ public class LC424LongestRepeatingCharacterReplacement {
   public static void main(String[] args) {
     var runner = new LC424LongestRepeatingCharacterReplacement();
 
-    String s = "ABAA";
-    int k = 0;
+    String s = "AAABABB";
+    int k = 1;
 
     System.out.println("characterReplacementSlidingWindow >> " + runner.characterReplacementSlidingWindow(s, k));
     System.out.println("characterReplacementWithBruteForce >> " + runner.characterReplacementWithBruteForce(s, k));
@@ -32,50 +32,52 @@ public class LC424LongestRepeatingCharacterReplacement {
    * @return
    */
   public int characterReplacementWithBruteForce(String s, int k) {
-    int res = 0;
+    int longestRes = 0;
+
     for (int i = 0; i < s.length(); i++) {
-      Map<Character, Integer> countChar = new HashMap<>();
-      int maxf = 0;
+      HashMap<Character, Integer> countChar = new HashMap<Character, Integer>();
+      int maxRepeat = 0;
+
       for (int j = i; j < s.length(); j++) {
         countChar.put(s.charAt(j), countChar.getOrDefault(s.charAt(j), 0) + 1);
-        maxf = Math.max(maxf, countChar.get(s.charAt(j)));
-        int sizeSubString = j - i + 1;
-        if (sizeSubString - maxf <= k) {
-          res = Math.max(res, sizeSubString);
+        maxRepeat = Math.max(maxRepeat, countChar.get(s.charAt(j)));
+
+        if (j - i + 1 - maxRepeat <= k) {
+          longestRes = Math.max(longestRes, j - i + 1);
         }
       }
     }
 
-    return res;
+    return longestRes;
   }
 
   /**
    * Time O(n)
    * Space O(n)
+   * 
    * @param s
    * @param k
    * @return
    */
   public int characterReplacementSlidingWindow(String s, int k) {
     int l = 0, r = 0, n = s.length();
-    Map<Character, Integer> countChar = new HashMap<>();
-    int maxf = 0;
     int res = 0;
-
+    Map<Character, Integer> map = new HashMap<>();
+    int maxF = 0;
     while (r < n) {
-      countChar.put(s.charAt(r), countChar.getOrDefault(s.charAt(r), 0) + 1);
-      maxf = Math.max(maxf, countChar.get(s.charAt(r)));
+      map.put(s.charAt(r), map.getOrDefault(s.charAt(r), 0) + 1);
+      maxF = Math.max(maxF, map.get(s.charAt(r)));
 
-      while ((r - l + 1) - maxf > k) {
-        countChar.put(s.charAt(l), countChar.getOrDefault(s.charAt(l), 0) - 1);
-        maxf = Math.max(maxf, countChar.get(s.charAt(l)));
+      while (r - l + 1 - maxF > k) {
+        map.put(s.charAt(l), map.getOrDefault(s.charAt(l), 0) - 1);
         l++;
       }
 
       res = Math.max(res, r - l + 1);
-      r++;
 
+      r++;
     }
+
     return res;
   }
 }
