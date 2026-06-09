@@ -1,7 +1,6 @@
 package com.zenbox.leetcode;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -14,6 +13,12 @@ import java.util.List;
  * </p>
  */
 public class LC515FindLargestValueInEachTreeRow {
+
+
+  public static void main(String[] args) {
+    System.out.println("largestValues");
+  }
+
   class Solution {
     public List<Integer> largestValues(TreeNode root) {
       List<Integer> res = new ArrayList<>();
@@ -23,17 +28,26 @@ public class LC515FindLargestValueInEachTreeRow {
       currLevel.add(root);
 
       while (!currLevel.isEmpty()) {
-        res.add(Collections.max(currLevel.stream().filter(item -> item != null).map(item -> item.val).toList()));
+        Integer max = null;
+        for (TreeNode curr : currLevel) {
+          if (curr != null) {
+            if (max == null) {
+              max = curr.val;
+            } else {
+              max = Math.max(max, curr.val);
+            }
+          }
+        }
+
+        res.add(max);
 
         List<TreeNode> nextLevel = new ArrayList<>();
-
         for (TreeNode curr : currLevel) {
           if (curr.left != null)
             nextLevel.add(curr.left);
           if (curr.right != null)
             nextLevel.add(curr.right);
         }
-
         currLevel = nextLevel;
       }
 
