@@ -15,34 +15,31 @@ public class LC547NumberOfProvinces {
     class Solution {
         public int findCircleNum(int[][] isConnected) {
             int n = isConnected.length;
-            if (n <= 1)
-                return n;
-
             boolean[] visited = new boolean[n];
-            int res = 0;
-            for (int i = 0; i < n; i++) {
-                if (!visited[i]) {
-                    res++;
-                    bfs(isConnected, visited, i);
-                }
 
+            int numberOfProvinces = 0;
+            for (int node = 0; node < n; node++) {
+                if(!visited[node]) {
+                    visited[node] = true;
+                    numberOfProvinces++;
+                    bfs(isConnected, visited, node);
+                }
             }
 
-            return res;
+            return numberOfProvinces;
         }
 
         private void bfs(int[][] isConnected, boolean[] visited, int root) {
             Queue<Integer> queue = new ArrayDeque<>();
             queue.add(root);
-            visited[root] = true;
 
-            while (!queue.isEmpty()) {
-                int curr = queue.poll();
-                
-                for (int i = 0; i < isConnected[curr].length; i++) {
-                    if (isConnected[curr][i] == 1 && !visited[i]) {
-                        queue.add(i);
-                        visited[i] = true;
+            while(!queue.isEmpty()) {
+                int currNode = queue.poll();
+                int[] edges = isConnected[currNode];
+                for(int node = 0; node < edges.length; node++) {
+                    if(edges[node] == 1 && !visited[node]) {
+                        visited[node] = true;
+                        queue.add(node);
                     }
                 }
             }
