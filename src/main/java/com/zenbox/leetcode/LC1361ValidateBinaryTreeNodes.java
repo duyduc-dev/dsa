@@ -1,7 +1,5 @@
 package com.zenbox.leetcode;
 
-import java.util.Arrays;
-
 /**
  * {@code LC1361ValidateBinaryTreeNodes}
  * <p>
