@@ -18,26 +18,27 @@ public class LC547NumberOfProvinces {
             int n = isConnected.length;
             boolean[] visited = new boolean[n];
 
-            int numberOfProvinces = 0;
-            for (int node = 0; node < n; node++) {
-                if (!visited[node]) {
-                    numberOfProvinces++;
-                    dfs(isConnected, visited, node);
+            int res = 0;
+            for (int i = 0; i < n; i++) {
+                if (!visited[i]) {
+                    res++;
+                    dfs(i, isConnected, visited);
                 }
             }
 
-            return numberOfProvinces;
+            return res;
         }
 
-        private void dfs(int[][] isConnected, boolean[] visited, int root) {
+        private void dfs(int root, int[][] isConnected, boolean[] visited) {
             visited[root] = true;
-            for (int i = 0; i < isConnected.length; i++) {
-                if (!visited[i] && isConnected[root][i] == 1) {
-                    visited[i] = true;
-                    dfs(isConnected, visited, i);
+
+            for (int node = 0; node < isConnected.length; node++) {
+                if (!visited[node] && isConnected[root][node] == 1) {
+                    dfs(node, isConnected, visited);
                 }
             }
         }
+
     }
 
     class SolutionBFS {
