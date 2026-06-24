@@ -37,16 +37,17 @@ public class LC444SequenceReconstruction {
 
             Queue<Integer> q = new LinkedList<>();
 
-            for (int i = 0; i <= n; i++) {
+            for (int i = 1; i <= n; i++) {
                 if (inDegree[i] == 0)
                     q.add(i);
             }
 
+            int count = 0;
             while (!q.isEmpty()) {
                 if (q.size() > 1)
                     return false;
                 Integer curr = q.poll();
-
+                count++;
                 for (Integer integer : cons.get(curr)) {
                     inDegree[integer]--;
                     if (inDegree[integer] == 0)
@@ -54,7 +55,7 @@ public class LC444SequenceReconstruction {
                 }
             }
 
-            return true;
+            return count == n;
         }
     }
 }
