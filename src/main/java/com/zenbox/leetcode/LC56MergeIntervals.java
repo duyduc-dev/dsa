@@ -30,13 +30,7 @@ public class LC56MergeIntervals {
         }
       }
 
-      res.add(curr);
-      int[][] output = new int[res.size()][2];
-      for (int i = 0; i < res.size(); i++) {
-        output[i] = res.get(i);
-      }
-
-      return output;
+      return res.toArray(new int[res.size()][2]);
     }
 
     private boolean overlap(int[] a, int[] b) {
