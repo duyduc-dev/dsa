@@ -50,4 +50,29 @@ public class LC435NonOverlappingIntervals {
     }
   }
 
+  class Solution3 {
+    public int eraseOverlapIntervals(int[][] intervals) {
+      Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
+      for (int[] i : intervals) {
+        System.out.print(Arrays.toString(i));
+      }
+
+      int[] prevEnd = intervals[0];
+      int res = 0;
+      for (int[] i : intervals) {
+        if (prevEnd == i)
+          continue;
+        if (prevEnd[1] > i[0]) {
+          res++;
+          if (i[1] < prevEnd[1])
+            prevEnd = i;
+        } else {
+          prevEnd = i;
+        }
+      }
+
+      return res;
+    }
+  }
+
 }
