@@ -13,9 +13,16 @@ import java.util.Map;
  * </p>
  */
 public class LC436FindRightInterval {
+
+  /**
+   * Time: O(nlogn)
+   * Space: O(n)
+   * Solution2
+   */
   class Solution2 {
     public int[] findRightInterval(int[][] intervals) {
       int n = intervals.length;
+
       Map<Integer, Integer> map = new HashMap<>();
 
       for (int i = 0; i < n; i++) {
@@ -23,32 +30,30 @@ public class LC436FindRightInterval {
       }
 
       Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
-
       int[] res = new int[n];
 
       for (int i = 0; i < n; i++) {
+        int l = i;
+        int r = n - 1;
         int[] curr = intervals[i];
-
-        int u = i;
-        int v = n - 1;
-        int min = -1;
+        int minStart = -1;
         boolean found = false;
-        while (u <= v) {
-          int mid = u + ((v - u) / 2);
+
+        while (l <= r) {
+          int mid = l + (r - l) / 2;
           if (intervals[mid][0] >= curr[1]) {
-            min = intervals[mid][0];
+            minStart = intervals[mid][0];
             found = true;
-            v = mid - 1;
+            r = mid - 1;
           } else {
-            u = mid + 1;
+            l = mid + 1;
           }
         }
 
-        res[map.get(curr[0])] = found ? map.get(min) : -1;
+        res[map.get(curr[0])] = found ? map.get(minStart) : -1;
       }
 
       return res;
-
     }
   }
 
@@ -62,7 +67,6 @@ public class LC436FindRightInterval {
       int n = intervals.length;
 
       Map<Integer, Integer> map = new HashMap<>();
-
       for (int i = 0; i < n; i++) {
         map.put(intervals[i][0], i);
       }
