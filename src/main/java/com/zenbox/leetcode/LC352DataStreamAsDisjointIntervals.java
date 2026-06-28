@@ -56,11 +56,4 @@ public class LC352DataStreamAsDisjointIntervals {
    * obj.addNum(value);
    * int[][] param_2 = obj.getIntervals();
    */
-
-  /**
-   * Your SummaryRanges object will be instantiated and called as such:
-   * SummaryRanges obj = new SummaryRanges();
-   * obj.addNum(value);
-   * int[][] param_2 = obj.getIntervals();
-   */
 }
