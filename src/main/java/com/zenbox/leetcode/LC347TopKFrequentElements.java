@@ -31,16 +31,16 @@ public class LC347TopKFrequentElements {
 
     static class SolutionPriorityQueue {
         public int[] topKFrequent(int[] nums, int k) {
-            Map<Integer, Integer> m = new HashMap();
+            Map<Integer, Integer> frequent = new HashMap<>();
 
             for (int n : nums) {
-                m.put(n, m.getOrDefault(n, 0) + 1);
+                frequent.put(n, frequent.getOrDefault(n, 0) + 1);
             }
 
-            PriorityQueue<int[]> q = new PriorityQueue<>((a, b) -> a[0] - b[0]);
+            PriorityQueue<int[]> q = new PriorityQueue<>((a, b) -> Integer.compare(b[0], a[0]));
 
-            for (int n : m.keySet()) {
-                q.add(new int[] { -m.get(n), n });
+            for (int key : frequent.keySet()) {
+                q.add(new int[] { frequent.get(key), key });
             }
 
             int[] res = new int[k];
@@ -67,8 +67,6 @@ public class LC347TopKFrequentElements {
         for (int num : nums) {
             map.put(num, map.getOrDefault(num, 0) + 1);
         }
-
-        PriorityQueue<int[]> q = new PriorityQueue<>((a, b) -> a[0] - b[0]);
 
         List<Integer>[] value = new ArrayList[nums.length + 1];
         for (Map.Entry<Integer, Integer> data : map.entrySet()) {
