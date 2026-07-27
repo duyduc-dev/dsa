@@ -1,7 +1,7 @@
 package com.zenbox;
 
+import com.zenbox.leetcode.LC122BestTimeToBuyAndSellStockII;
 import com.zenbox.leetcode.LC23MergeKSortedLists;
-import com.zenbox.leetcode.LC45JumpGame2;
 
 public class App {
 
@@ -10,7 +10,7 @@ public class App {
      * {@link LC23MergeKSortedLists}
      * 
      * In progress
-     * {@link LC45JumpGame2}
+     * {@link LC122BestTimeToBuyAndSellStockII}
      */
     public void leetCodePending() {
     }
