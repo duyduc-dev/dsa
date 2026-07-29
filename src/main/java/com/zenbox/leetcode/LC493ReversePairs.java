@@ -9,7 +9,14 @@ package com.zenbox.leetcode;
  * </p>
  */
 public class LC493ReversePairs {
-    class Solution {
+    public static void main(String[] args) {
+        Solution s = new Solution();
+
+        int[] nums = { 1, 3, 2, 3, 1 };
+        System.out.println(s.reversePairs(nums));
+    }
+
+    static class Solution {
 
         public int reversePairs(int[] nums) {
             // 1. count
