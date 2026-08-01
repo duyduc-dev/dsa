@@ -11,19 +11,20 @@ public class LC327CountOfRangeSum {
     class Solution {
         public int countRangeSum(int[] nums, int lower, int upper) {
             int n = nums.length;
-            long[] prefixSum = new long[n + 1];
+            long[] prefixSums = new long[n + 1];
 
             for (int i = 0; i < n; i++) {
-                prefixSum[i + 1] = prefixSum[i] + nums[i];
+                prefixSums[i + 1] = prefixSums[i] + nums[i];
             }
 
-            return count(prefixSum, 0, prefixSum.length - 1, lower, upper);
+            return count(prefixSums, 0, n, lower, upper);
         }
 
         int count(long[] sums, int l, int r, int lower, int upper) {
             if (l >= r)
                 return 0;
-            int m = (l + r) / 2;
+
+            int m = (r + l) / 2;
 
             return count(sums, l, m, lower, upper)
                     + count(sums, m + 1, r, lower, upper)
@@ -31,31 +32,31 @@ public class LC327CountOfRangeSum {
         }
 
         int countMerge(long[] sums, int l, int m, int r, int lower, int upper) {
-            // 1.count
+            // 1. count
             /**
-             * S(i, j) = S(0, j) - S(0, i)
+             * S(i, j) = S(j) - S(i)
+             * lower <= S(j) - S(i) <= upper
+             * lower + S(i) <= S(j) <= upper + S(i)
              */
-
             int count = 0;
-            int low = m + 1, high = m + 1;
+            int low = m + 1;
+            int high = m + 1;
             for (int i = l; i <= m; i++) {
                 while (low <= r && sums[low] < lower + sums[i])
                     low++;
                 while (high <= r && sums[high] <= upper + sums[i])
                     high++;
-
                 count += high - low;
             }
 
-            // 2.merge
+            // 2. sort
             int i = l;
             int j = m + 1;
-            int n = r - l + 1;
-            long[] temp = new long[n];
             int k = 0;
+            long[] temp = new long[r - l + 1];
 
             while (i <= m && j <= r) {
-                if (sums[i] < sums[j])
+                if (sums[i] <= sums[j])
                     temp[k++] = sums[i++];
                 else
                     temp[k++] = sums[j++];
@@ -66,9 +67,8 @@ public class LC327CountOfRangeSum {
             while (j <= r)
                 temp[k++] = sums[j++];
 
-            for (int p = 0; p < n; p++) {
+            for (int p = 0; p < temp.length; p++)
                 sums[l + p] = temp[p];
-            }
 
             return count;
         }
