@@ -28,6 +28,65 @@ public class LC347TopKFrequentElements {
         System.out.println(Arrays.toString(res));
     }
 
+    class SolutionQuickSelect {
+        /**
+         * 
+         * @param nums
+         * @param k
+         * @return
+         */
+        public int[] topKFrequent(int[] nums, int k) {
+            Map<Integer, Integer> frequent = new HashMap<>();
+
+            for (int num : nums) {
+                frequent.put(num, frequent.getOrDefault(num, 0) + 1);
+            }
+
+            List<Integer> uniqueNumbers = new ArrayList<>(frequent.keySet());
+
+            return findTopK(frequent, uniqueNumbers, k).stream().mapToInt(Integer::intValue).toArray();
+        }
+
+        List<Integer> findTopK(Map<Integer, Integer> frequent, List<Integer> uniqueNumbers, int k) {
+            if (uniqueNumbers.size() <= k)
+                return uniqueNumbers;
+
+            List<Integer> left = new ArrayList<>(), mid = new ArrayList<>(), right = new ArrayList<>();
+
+            int pivotIdx = (int) (Math.random() * uniqueNumbers.size());
+            int pivotNum = uniqueNumbers.get(pivotIdx);
+            int pivotFrequent = frequent.get(pivotNum);
+
+            for (int num : uniqueNumbers) {
+                int currFrequent = frequent.get(num);
+                if (currFrequent > pivotFrequent)
+                    left.add(num);
+                else if (currFrequent == pivotFrequent)
+                    mid.add(num);
+                else
+                    right.add(num);
+            }
+
+            if (left.size() >= k)
+                return findTopK(frequent, left, k);
+            k -= left.size();
+
+            List<Integer> res = new ArrayList<>(left);
+
+            if (mid.size() >= k) {
+                res.addAll(mid.subList(0, k));
+                return res;
+            }
+
+            res.addAll(mid);
+            k -= mid.size();
+
+            res.addAll(findTopK(frequent, right, k));
+
+            return res;
+        }
+    }
+
     static class SolutionPriorityQueue {
         public int[] topKFrequent(int[] nums, int k) {
             Map<Integer, Integer> frequent = new HashMap<>();
