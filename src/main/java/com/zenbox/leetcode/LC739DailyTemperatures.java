@@ -7,10 +7,33 @@ import java.util.Stack;
 /**
  * {@code LC739DailyTemperatures}
  * <p>
- * Solution for <a href="https://leetcode.com/problems/daily-temperatures">LeetCode Problem 739: Daily Temperatures</a>.
+ * Solution for
+ * <a href="https://leetcode.com/problems/daily-temperatures">LeetCode Problem
+ * 739: Daily Temperatures</a>.
  * </p>
  */
 public class LC739DailyTemperatures {
+
+    class SolutionMonotonicQueue {
+        public int[] dailyTemperatures(int[] temperatures) {
+            int n = temperatures.length;
+            int[] res = new int[n];
+            var stack = new Stack<int[]>();
+
+            for (int i = n - 1; i >= 0; i--) {
+                int curr = temperatures[i];
+
+                while (!stack.isEmpty() && stack.peek()[0] <= curr) {
+                    stack.pop();
+                }
+
+                res[i] = stack.isEmpty() ? 0 : stack.peek()[1] - i;
+                stack.add(new int[] { curr, i });
+            }
+
+            return res;
+        }
+    }
 
     public int[] dailyTemperaturesWithStackImprove(int[] temperatures) {
         int[] res = new int[temperatures.length];
@@ -22,7 +45,7 @@ public class LC739DailyTemperatures {
                 int[] pair = stack.pop();
                 res[pair[1]] = i - pair[1];
             }
-            stack.push(new int[]{t, i});
+            stack.push(new int[] { t, i });
         }
         return res;
     }
@@ -30,6 +53,7 @@ public class LC739DailyTemperatures {
     /**
      * Time: O(n)
      * Space: O(n)
+     * 
      * @param temperatures
      * @return
      */
@@ -42,15 +66,15 @@ public class LC739DailyTemperatures {
         stack.push(temperatures[n - 1]);
         map.put(temperatures[n - 1], n - 1);
 
-        for(int i = n - 2; i >= 0; i--) {
+        for (int i = n - 2; i >= 0; i--) {
             Integer maxTemp = stack.peek();
             int curr = temperatures[i];
-            while(maxTemp != null && curr >= maxTemp) {
+            while (maxTemp != null && curr >= maxTemp) {
                 map.remove(maxTemp);
                 stack.pop();
                 maxTemp = stack.isEmpty() ? null : stack.peek();
             }
-            if(maxTemp != null && curr < maxTemp) {
+            if (maxTemp != null && curr < maxTemp) {
                 int indexMaxTemp = map.get(maxTemp);
                 result[i] = indexMaxTemp - i;
             }
@@ -63,17 +87,18 @@ public class LC739DailyTemperatures {
     /**
      * Time: O(n^2)
      * Space: O(n)
+     * 
      * @param temperatures
      * @return
      */
     public int[] dailyTemperatures(int[] temperatures) {
         int[] result = new int[temperatures.length];
 
-        for(int i = 0; i < temperatures.length; i++) {
+        for (int i = 0; i < temperatures.length; i++) {
             int temp = temperatures[i];
-            for(int j = i + 1; j < temperatures.length; j++) {
+            for (int j = i + 1; j < temperatures.length; j++) {
                 int tempFuture = temperatures[j];
-                if(tempFuture > temp) {
+                if (tempFuture > temp) {
                     result[i] = j - i;
                     break;
                 }
